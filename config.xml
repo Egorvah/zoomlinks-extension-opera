@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns="http://www.w3.org/ns/widgets" version="1.0">
+  <name>Zoomlinks</name>
+  <author href="http://itaktika.ru/" email="rustorg_1@mail.ru">Taktika</author>
+  <icon src="img/icon128.png"/>
+  <access origin="*"/>
+  <description xml:lang="ru">Append new link</description>
+</widget>
