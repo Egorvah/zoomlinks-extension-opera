@@ -16,21 +16,6 @@
                 window.localStorage.password = $('input[name="password"]').val();
             });
         });
-
-
-        bgColor.addEventListener( 'change', function() {
-            widget.preferences.backgroundColor = this.value;
-        }, false );
-
-        font.addEventListener( 'change', function() {
-
-
-        }, false );
-
-        if ( widget.preferences.backgroundColor && widget.preferences.font ) {
-            bgColor.value = widget.preferences.backgroundColor;
-            font.value = widget.preferences.font;
-        }
     </script>
 </head>
 <body>

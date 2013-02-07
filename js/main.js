@@ -9,10 +9,9 @@
   });
 
   m.controller('MainCtr', function($scope, Link) {
-    $scope.exportBookmarks = function() {
-      return alert('Hi Opera');
+    return $scope.exportTabs = function() {
+      return opera.extension.postMessage('exportTabs');
     };
-    return $scope.exportTabs = function() {};
   });
 
 }).call(this);

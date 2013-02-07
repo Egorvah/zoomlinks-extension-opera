@@ -4,5 +4,5 @@
   <author href="http://itaktika.ru/" email="rustorg_1@mail.ru">Taktika</author>
   <icon src="img/icon128.png"/>
   <access origin="*"/>
-  <description xml:lang="ru">Append new link</description>
+  <description xml:lang="ru">Append new link CTRL + SHIFT + Z</description>
 </widget>

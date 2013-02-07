@@ -5,8 +5,6 @@
     <title>Zoomlinks</title>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script>
-        console.log('HotKey start');
-        console.log(window.localStorage.username);
         window.addEventListener("load", setupConnection, false);
 
         window.addEventListener("load", function(){
@@ -16,8 +14,8 @@
              icon: "img/icon48.png",
              popup: {
                  href: "popup.html",
-                 width: 350,
-                 height: 350
+                 width: 200,
+                 height: 100
                  }
              }
              theButton = opera.contexts.toolbar.createItem(ToolbarUIItemProperties);
@@ -25,14 +23,44 @@
          }, false);
 
 
+        function print_r(arr, level) {
+            var print_red_text = "";
+            if(!level) level = 0;
+            var level_padding = "";
+            for(var j=0; j<level+1; j++) level_padding += "    ";
+            if(typeof(arr) == 'object') {
+                for(var item in arr) {
+                    var value = arr[item];
+                    if(typeof(value) == 'object') {
+                        print_red_text += level_padding + "'" + item + "' :\n";
+                        print_red_text += print_r(value,level+1);
+                    }
+                    else
+                        print_red_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+                }
+            }
+
+            else  print_red_text = "===>"+arr+"<===("+typeof(arr)+")";
+            return print_red_text;
+        }
+
         function setupConnection(){
             opera.extension.onconnect = function(event){
                 event.source.postMessage("something")
             }
 
             opera.extension.onmessage = function(event){
+                var urls = [];
+                if(event.data = 26){
+                    urls[0] = opera.extension.tabs.getSelected().url;
+                }
+                if(event.data == 'exportTabs'){
+                    var tabs = opera.extension. tabs.getAll();
+                    for(var i=0;i<tabs.length;i++){
+                        urls[i] = tabs[i].url;
+                    }
+                }
 
-                var focused = opera.extension.tabs.getSelected();
 
                 var username = window.localStorage.username;
                 var password = window.localStorage.password;
@@ -55,13 +83,17 @@
 
                             var responseAuthObj = jQuery.parseJSON(xhrSingIn.responseText)
                             if (responseAuthObj.isAuthenticated == true){
-                                addLink(focused.url,defaultFolder);
+                                for(var i=0;i<urls.length;i++){
+                                    addLink(urls[i],defaultFolder);
+                                }
                             }
 
                         }, false);
 
                     }else{
-                        addLink(focused.url,defaultFolder);
+                        for(var i=0;i<urls.length;i++){
+                            addLink(urls[i],defaultFolder);
+                        }
                     }
 
                 }, false);
@@ -70,14 +102,13 @@
         }
 
         function addLink(url,folder){
-
                 var msg = "url="+url+"&folder="+folder;
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST','http://zoomlinks.ru/rest/link');
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send(msg);
                 xhr.addEventListener('load', function(event) {
-                    console.log('responseText = ' + xhr.responseText)
+                    //console.log('responseText = ' + xhr.responseText)
 
                 }, false);
         }
