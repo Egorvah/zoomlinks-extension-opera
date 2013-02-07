@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zoomlinks settings</title>
+
+
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('input[name="username"]').val(window.localStorage.username);
+            $('input[name="password"]').val(window.localStorage.password);
+
+            $('input[name="save"]').click(function(){
+                window.localStorage.username = $('input[name="username"]').val();
+                window.localStorage.password = $('input[name="password"]').val();
+            });
+        });
+
+
+        bgColor.addEventListener( 'change', function() {
+            widget.preferences.backgroundColor = this.value;
+        }, false );
+
+        font.addEventListener( 'change', function() {
+
+
+        }, false );
+
+        if ( widget.preferences.backgroundColor && widget.preferences.font ) {
+            bgColor.value = widget.preferences.backgroundColor;
+            font.value = widget.preferences.font;
+        }
+    </script>
+</head>
+<body>
+
+<div id="wrapper">
+    <h1>Sing In</h1>
+    Username: <input type="text" name="username" value="">  <br>
+    Password: <input type="password" name="password" value=""> <br>
+    <input type="button" name="save" value="Save">
+</div>
+</body>
+</html>

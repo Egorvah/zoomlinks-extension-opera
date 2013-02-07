@@ -6,7 +6,7 @@
     <script src="js/jquery-1.8.3.min.js"></script>
     <script>
         console.log('HotKey start');
-
+        console.log(window.localStorage.username);
         window.addEventListener("load", setupConnection, false);
 
         window.addEventListener("load", function(){
@@ -33,33 +33,55 @@
             opera.extension.onmessage = function(event){
 
                 var focused = opera.extension.tabs.getSelected();
-                console.log('Key ='+event.data+' tab url = '+focused.url);
-                addLink(focused.url,0);
-                /*$.post("http://zoomlinks.ru/rest/link", { url: focused.url, folder: 0 }).done(function(data) {
-                        console.log('send post = ok');
-                    }).fail(function(data){
-                        console.log('send post = fail');
-                    });*/
+
+                var username = window.localStorage.username;
+                var password = window.localStorage.password;
+                var defaultFolder = 0;
+
+                var xhrCheckAuth = new XMLHttpRequest();
+                xhrCheckAuth.open('GET','http://zoomlinks.ru/authApi/checkAuth');
+                xhrCheckAuth.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhrCheckAuth.send();
+                xhrCheckAuth.addEventListener('load', function(event) {
+                    var responseObj = jQuery.parseJSON(xhrCheckAuth.responseText);
+                    if (responseObj.isAuthenticated == false){
+
+                        msgSingIn = "username=" + username + "&password=" + password;
+                        var xhrSingIn = new XMLHttpRequest();
+                        xhrSingIn.open('POST','http://zoomlinks.ru/authApi/signIn');
+                        xhrSingIn.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        xhrSingIn.send(msgSingIn);
+                        xhrSingIn.addEventListener('load', function(event) {
+
+                            var responseAuthObj = jQuery.parseJSON(xhrSingIn.responseText)
+                            if (responseAuthObj.isAuthenticated == true){
+                                addLink(focused.url,defaultFolder);
+                            }
+
+                        }, false);
+
+                    }else{
+                        addLink(focused.url,defaultFolder);
+                    }
+
+                }, false);
 
             }
         }
 
         function addLink(url,folder){
-            console.log('start send xhr');
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4) {
-                    clearTimeout(xhrTimeout);
-                    if (xhr.status == 200) {
-                        console.log('send xhr = ok');
-                    }
-                }
-            }
-            xhr.open("POST", "http://zoomlinks.ru/rest/link", true);
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8");
-            xhr.send("url="+url+"&folder="+folder);
-            var xhrTimeout = setTimeout("xhr.abort();aborted('addLink');console.log('send xhr = fail');", 5000);
+
+                var msg = "url="+url+"&folder="+folder;
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST','http://zoomlinks.ru/rest/link');
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(msg);
+                xhr.addEventListener('load', function(event) {
+                    console.log('responseText = ' + xhr.responseText)
+
+                }, false);
         }
+
     </script>
 </head>
 <body>
