@@ -2,9 +2,8 @@
 <html>
 <head>
     <title>Zoomlinks settings</title>
-
-
     <script src="js/jquery-1.8.3.min.js"></script>
+    <link href="css/style.css" type="text/css" rel="stylesheet">
     <script>
         $(document).ready(function() {
 
@@ -18,13 +17,23 @@
         });
     </script>
 </head>
-<body>
+<body style="padding-top: 150px;">
+<div class="b-login-form m-signIn ng-scope">
 
-<div id="wrapper">
-    <h1>Sing In</h1>
-    Username: <input type="text" name="username" value="">  <br>
-    Password: <input type="password" name="password" value=""> <br>
-    <input type="button" name="save" value="Save">
+    <div class="control-group b-form-field">
+        <input class="e-signIn__input m-bm ng-pristine ng-valid" name="username" type="text" placeholder="Username">
+    </div>
+
+    <div class="control-group b-form-field">
+        <input class="e-signIn__input m-bm ng-pristine ng-valid" name="password" type="password" placeholder="Password">
+
+        <!-- uiIf: error -->
+    </div>
+    <div class="controls">
+        <input type="button" name="save" value="Save" class="e-action-btn">
+    </div>
+
 </div>
+
 </body>
 </html>

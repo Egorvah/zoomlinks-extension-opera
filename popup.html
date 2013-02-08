@@ -1,16 +1,21 @@
 <!doctype html>
 <html ng-app="zoomlinks" ng-csp>
 <head>
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-resource-1.0.1.js"></script>
-    <script src="js/angular-ui.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        $(document).ready(function() {
+            $('.exportTabs').click(function(){
+                opera.extension.postMessage('exportTabs');
+            });
+        });
+    </script>
 </head>
 <body>
 <div ng-controller="MainCtr">
 
     <br/>
-    <button ng-click="exportTabs()" >Export tabs</button>
+    <button class="e-action-btn exportTabs" >Export tabs</button>
 
 </div>
 </body>
